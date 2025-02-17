@@ -1,6 +1,7 @@
 import Task from '../models/taskModel.js';
 import User from '../models/userModel.js';
 import Notification from '../models/notificationModel.js'; 
+import { getIO } from '../utils/socket/socket.js';
 // import { io } from '../../app.js'; 
 // import { notifyTaskAssigned } from '../utils/notification.js';
 
@@ -16,7 +17,12 @@ export const createTask = async (req, res) => {
 
     const task = new Task(req.body);
     const savedTask = await task.save();
-    notifyTaskAssigned({assignedTo,title})
+    const io=getIO();
+    // Notify task assigned
+    const user = await User.findById(assignedTo);
+    if (user) {
+      io.emit('task',savedTask)
+    }
     res.status(201).json(savedTask);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

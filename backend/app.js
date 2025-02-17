@@ -8,45 +8,25 @@ import userRoutes from "./src/routers/userRouter.js";
 import projectRoutes from "./src/routers/projectRoutes.js";
 import taskRoutes from "./src/routers/taskRoutes.js";
 import issueRoutes from "./src/routers/issueRoutes.js";
+import { initSocket } from "./src/utils/socket/socket.js";
 
 // Import the socket notification setup
 // import { setupSocket } from './src/utils/socket.js';
-import { Socket } from "dgram";
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+initSocket(server)
 const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// Initialize Socket.IO
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  },
-});
-
-// Store the current user in a global variable for socket notification setup
-const user = {}; // Declare this before using it
-io.on("connection", (socket) => {
-  console.log("User connected");
-  socket.on("register", (userId) => {
-    user[userId] = socket.id; // Store the user
-    console.log(`User registered -> userId: ${userId}, socketId: ${socket.id}`);
-  });
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-    const userId = Object.keys(user).find(key => user[key] === socket.id);
-    if (userId) delete user[userId]; // Remove user on disconnect
-  });
-});
-
+app.get("/",(req,res)=>{
+  res.send("Server is up and running!")
+})
 // // Socket.IO Connection
 // setupSocket(io);
 
