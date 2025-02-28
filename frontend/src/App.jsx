@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import io from "socket.io-client"
-const socket =  io.connect("http://localhost:4000")
-const App=()=>{
-  const [message,setmessage]=useState('')
-  const [rm,setRm]=useState('')
-  const sendMessage=()=>{
-    socket.emit('get_notifications',message)
-  }
-useEffect(()=>{
-  socket.on("task",(data)=>{
-    // setRm(data.assignedTo)
-    console.log("hello",data)
-  })
-},[socket])
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import AddUser from "./pages/user/AddUser";
+import UserTable from "./pages/user/UserTable";
+import UpdateUser from "./pages/user/UpdateUser";
+import Login from "./pages/login";
+import Registration from "./pages/registration";
+const App = () => {
   return (
-    <div>
-      <input placeholder='message' 
-        onChange={(e) => setmessage(e.target.value)} ></input>
-      <button onClick={sendMessage}>send</button>
-      <h1 className='text-5xl'>{rm}</h1>
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout/>}>
+          <Route index  element={<Dashboard />} />
+          <Route path="/add-user" element={<AddUser/>} />
+          <Route path="/view-user" element={<UserTable />}/>
+          <Route path="/edit-user" element={<UpdateUser/>}/>
+        </Route>
+        <Route  path="/login" element={<Login/>}/>
+        <Route  path="/registration" element={<Registration/>}/>
+      </Routes>
+    </Router>
+  );
+};
+
 export default App;

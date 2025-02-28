@@ -5,9 +5,14 @@ const userSchema = new mongoose.Schema({
   lastname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },  // Added password field
+  status:{
+    type:String,
+    enum: ["Active", "Inactive"],
+    default:"Active",
+  },
   role: {
     type: String,
-    enum: ["Admin", "Project Manager", "Team Member", "Client"],
+    enum: ["Admin", "Project Manager", "Team Member"],
     default: "Team Member"
   },
   createdAt: { type: Date, default: Date.now }

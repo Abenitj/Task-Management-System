@@ -7,18 +7,20 @@ import {
   deleteUser,
   sendOTP,
   resetPassword,
+  updateStatus,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { authorizeRoles } from "../middleware/rbacMiddleware.js";
 import { ROLES } from "../utils/constants.js";
 const router = express.Router();
 
-router.get("/", authMiddleware, authorizeRoles(ROLES.ADMIN), getAllUsers);
+router.get("/", getAllUsers);
 router.get("/:id",authMiddleware,getUserById);
-router.post("/", authMiddleware, authorizeRoles(ROLES.ADMIN), createUser);
-router.put("/:id", authMiddleware, updateUser);
-router.delete("/:id", authMiddleware, authorizeRoles(ROLES.ADMIN), deleteUser);
-router.post("/send-otp", authMiddleware, sendOTP);
-router.patch("/reset-password", authMiddleware, resetPassword);
+router.post("/", createUser);
+router.put("/:id", updateUser);
+router.delete("/:id", deleteUser);
+router.post("/send-otp", sendOTP);
+router.patch("/reset-password", resetPassword);
+router.patch("/status/:id",updateStatus);
 
 export default router;

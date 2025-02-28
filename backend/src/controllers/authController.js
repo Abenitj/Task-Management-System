@@ -4,13 +4,11 @@ import User from '../models/userModel.js';
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
@@ -31,7 +29,18 @@ export const login = async (req, res) => {
       sameSite: 'Strict', // CSRF protection
     });
 
-    res.json({ message: 'Login successful' });
+    res.json({
+      message: 'Login successful',
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        firstname: user.firstname,
+        lastname:user.lastname,
+        status:user.status
+        // Add any other non-sensitive user data here
+      },
+    });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
