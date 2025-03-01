@@ -37,6 +37,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             />
           </nav>
           <div className="mt-auto">
+            <div className="border-t border-gray-300 dark:border-gray-700" />{" "}
+            {/* Divider above Logout */}
             <Logout />
           </div>
         </>

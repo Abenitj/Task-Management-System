@@ -21,6 +21,7 @@ const AddUser = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log(data)
     try {
       await axios.post("http://localhost:4000/api/users", data);
       reset();

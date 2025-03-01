@@ -23,7 +23,7 @@ const Logout = () => {
   return (
  <button
   onClick={handleLogout}
-  className="p-2 hover:bg-gray-200 active:bg-gray-300 dark: w-full flex items-center gap-2 rounded-sm transition-all duration-300"
+  className="p-2 hover:bg-gray-200 active:bg-gray-100 dark:hover:bg-gray-700 w-full flex items-center gap-2 rounded-sm transition-all duration-300"
   title="Logout"
 > 
   <FiLogOut className="text-gray-700 dark:text-gray-50 text-xl" />

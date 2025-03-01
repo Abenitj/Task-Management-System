@@ -41,6 +41,8 @@ const Layout = () => {
 
   return (
     <div className="flex h-screen w-full fixed ">
+        {/* Divider between Dashboard and User */}
+
       {/* Sidebar */}
      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}/>
 

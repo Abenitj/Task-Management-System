@@ -1,10 +1,19 @@
 import React from "react";
 const LoadingSpinner = () => {
-  <div>
-    <div class="min-h-screen flex items-center justify-center">
-      <div class="w-20 h-20 border-4 border-gray-300 border-t-4 border-t-blue-400 rounded-full animate-spin"></div>
+  return (
+    <div>
+      <div class="flex w-screen h-screen items-center justify-center">
+        <div
+          class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+          role="status"
+        >
+          <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default LoadingSpinner;
