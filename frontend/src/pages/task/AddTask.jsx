@@ -1,0 +1,139 @@
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import Modal from "../../components/Modal";
+import axios from "axios";
+import TextInput from "../../components/TextInput";
+import SelectInput from "../../components/SelectInput";
+import TextAreaInput from "../../components/TextareaInput";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal } from "../../features/modalSlice";
+
+const AddTask = () => {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState();
+  const [Options, setOption] = useState();
+  const [error, setError] = useState();
+  const role = "Team Member";
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/api/users/role/${role}`
+      );
+      if (res.status === 200) {
+        setOption(
+          res.data.map((user) => ({
+            value: user._id,
+            label: user.firstname,
+          }))
+        );
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const project_id = useSelector((state) => state.modal?.projectId);
+  const onSubmit = async (data) => {
+    if (!data.assignedTo) {
+      alert("Please assign the task to someone.");
+      return;
+    }
+
+    const newTask = {
+      title: data.title,
+      description: data.description,
+      assignedTo: data.assignedTo,
+      deadline: data.deadline,
+      project: project_id,
+      priority: data.priority,
+    };
+
+    try {
+      const res = await axios.post("http://localhost:4000/api/task", newTask, {
+        withCredentials: true,
+      });
+      if (res.status === 201) {
+        dispatch(closeModal());
+        console.log("Task added successfully", response.data);
+      }
+    } catch (error) {
+      console.error(
+        "Error adding task:",
+        error.response?.data?.error || error.message
+      );
+    }
+  };
+
+  if (isLoading) return <div>loading...</div>;
+  return (
+    <div>
+      <Modal title={"Add Task"}>
+        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+          <div className="w-full h-[90%] grid gap-x-10 gap-y-5 grid-cols-1 md:grid-cols-2">
+            <TextInput
+              isRequired={true}
+              label="Title"
+              error={errors.title}
+              {...register("title", { required: "Title is required" })}
+            />
+
+            <SelectInput
+              label="Assigned To"
+              isRequired={true}
+              error={errors.assignedTo}
+              {...register("assignedTo", { required: "it is righie" })}
+              options={Options}
+            />
+            <SelectInput
+              label="Priority"
+              isRequired={true}
+              error={errors.priority}
+              {...register("priority")}
+              options={[
+                { value: "High", label: "High" },
+                { value: "Medium", label: "Medium" },
+                { value: "Low", label: "Low" },
+                { value: "Critical", label: "Critical" },
+              ]}
+            />
+            <TextInput
+              label="Deadline"
+              isRequired={true}
+              type="datetime-local"
+              error={errors.deadline}
+              {...register("deadline", { required: "Deadline is required" })}
+            />
+          </div>
+          <TextAreaInput
+            label="Description"
+            error={errors.description}
+            {...register("description", {
+              required: "Description is required",
+            })}
+          />
+          <div>
+            <button
+              type="submit"
+              className="text-gray-50 mt-4 bg-gray-600 hover:bg-gray-700 font-medium rounded-md text-sm px-5 py-2.5"
+            >
+              Add Task
+            </button>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  );
+};
+
+export default AddTask;

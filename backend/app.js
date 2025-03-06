@@ -1,6 +1,5 @@
 import express from "express";
-import http from "http";
-import { Server } from "socket.io";
+
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
@@ -9,17 +8,22 @@ import projectRoutes from "./src/routers/projectRoutes.js";
 import taskRoutes from "./src/routers/taskRoutes.js";
 import authRoutes from "./src/routers/authRoutes.js";
 import issueRoutes from "./src/routers/issueRoutes.js";
-import { initSocket } from "./src/utils/socket/socket.js";
 import cookieParser from 'cookie-parser';
-// Import the socket notification setup
-// import { setupSocket } from './src/utils/socket.js';
+
+//socket setup
+import http from "http";
+import {Server} from "socket.io"
+import { setupSocket } from "./src/config/socket.js";
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
-initSocket(server)
 const port = process.env.PORT || 5000;
+const server = http.createServer(app);
+
+//initialize socket connection
+setupSocket(server)
+
 
 // Middleware
 app.use(express.json());
@@ -30,13 +34,13 @@ app.use(
   })
 );
 
-app.use(cookieParser())
 
+app.use(cookieParser())
 app.get("/",(req,res)=>{
   res.send("Server is up and running!")
 })
-// // Socket.IO Connection
-// setupSocket(io);
+
+
 
 // Routes
 app.use("/api/users", userRoutes);

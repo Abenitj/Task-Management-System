@@ -44,7 +44,7 @@ const Layout = () => {
         {/* Divider between Dashboard and User */}
 
       {/* Sidebar */}
-     <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}/>
+     <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
 
       {/* Main Content */}
       <div className="flex-1 flex  flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white ">

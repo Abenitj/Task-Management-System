@@ -3,14 +3,17 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../features/authSlice";
 import { FiLogOut } from "react-icons/fi";
+import socket from "../config/socket";
 
 const Logout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
+     socket.disconnect();
     // Redirect to login and prevent back navigation
     navigate("/login", { replace: true });
+
     // Prevent back button navigation after logout
     setTimeout(() => {
       window.history.pushState(null, "", window.location.href);

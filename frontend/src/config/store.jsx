@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import {persistStore,persistReducer} from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import authReducer from "../features/authSlice";
-
+import modalReducer from "../features/modalSlice";
 const persistConfig={
   key:'auth',
   storage
@@ -11,6 +11,7 @@ const persistConfig={
 export const store = configureStore({
   reducer: {
     user:persistedReducer,
+    modal:modalReducer,
   },
 });
 

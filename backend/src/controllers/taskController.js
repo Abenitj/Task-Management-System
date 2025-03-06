@@ -1,29 +1,19 @@
+import { getIo} from '../config/socket.js';
 import Task from '../models/taskModel.js';
 import User from '../models/userModel.js';
-import Notification from '../models/notificationModel.js'; 
-import { getIO } from '../utils/socket/socket.js';
-// import { io } from '../../app.js'; 
-// import { notifyTaskAssigned } from '../utils/notification.js';
-
 // Create a new task
 export const createTask = async (req, res) => {
   try {
-    const { title, project, assignedTo, priority, status, deadline } = req.body;
-
-    // Check if any of the required fields are missing
-    if (!title || !project || !assignedTo || !status) {
-      return res.status(400).json({ error: 'Fields title, project, assignedTo, and status are required.' });
-    }
-
     const task = new Task(req.body);
     const savedTask = await task.save();
-    const io=getIO();
     // Notify task assigned
-    const user = await User.findById(assignedTo);
-    if (user) {
-      io.emit('task',savedTask)
-    }
+    const user = await User.findById(req.body.assignedTo);
+  
     res.status(201).json(savedTask);
+    console.log(savedTask) 
+    console.log("Emitting notification for user:", savedTask);
+    getIo().to(user.socketId).emit("notification", { message: "New Alert!" });
+    
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

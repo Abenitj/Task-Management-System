@@ -16,7 +16,7 @@ const Toast = ({ showToast, setShowToast, message }) => {
   return (
     <div
       id="toast-danger"
-      className="fixed bottom-2 left-2 z-50 flex items-center w-full max-w-xs p-4 mb-4 text-red-500 bg-red-50 rounded-md text-lg shadow-sm dark:text-gray-300 dark:bg-gray-800"
+      className="fixed  bottom-2 left-2 z-50 flex items-center w-full max-w-xs p-4 mb-4 text-red-500 bg-red-50 rounded-md text-lg shadow-sm dark:text-gray-300 dark:bg-gray-800"
       role="alert"
     >
       <div className="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">

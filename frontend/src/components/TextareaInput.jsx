@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextareaInput = ({ label, error, isRequired = false, ...rest }) => {
+const TextAreaInput = ({ label, error, isRequired = false, ...rest }) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 dark:text-white">
@@ -22,4 +22,4 @@ const TextareaInput = ({ label, error, isRequired = false, ...rest }) => {
   );
 };
 
-export default TextareaInput;
+export default TextAreaInput;
