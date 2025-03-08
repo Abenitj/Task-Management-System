@@ -4,7 +4,7 @@ const ModalSlice=createSlice({
     name:'modal',
     initialState:{
         isOpen:false,
-        projectId:null
+        projectId:"hello"
     },
     reducers:{
         openModal:(state)=>{

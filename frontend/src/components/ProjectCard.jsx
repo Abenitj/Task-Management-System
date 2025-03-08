@@ -2,16 +2,15 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Button,
   Typography,
   Chip,
-  useSelect,
 } from "@material-tailwind/react";
 import { FaPlus, FaProjectDiagram } from "react-icons/fa";
 import { formatDate } from "../utils/FormateDate";
 import { useState } from "react";
 import { openModal, setProjectId } from "../features/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
+
 const ProjectCard = ({
   name,
   description,
@@ -20,11 +19,12 @@ const ProjectCard = ({
   endDate,
   status,
   id,
+  setIsOpen
 }) => {
   const [isReadMore, setIsReadMore] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch=useDispatch();
   const handleTaskCreate = (id) => {
-    dispatch(openModal());
+    dispatch(openModal())
     dispatch(setProjectId(id));
   };
   return (

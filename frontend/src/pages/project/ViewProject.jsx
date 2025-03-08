@@ -8,12 +8,13 @@ const ViewProject = () => {
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [isOpen,setIsOpen]=useState(false)
 
   // Fetch Projects
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/projects", {
+        const res = await axios.get("http://localhost:4000/api/projects",{
           withCredentials: true,
         });
         setProjects(res.data); // Set projects from backend
@@ -37,24 +38,23 @@ const ViewProject = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-gray-100">
-        View Projects
-      </h1>
+    <div className="p-2 min-h-screen">
+
+      <div className="p-4">
+        <h1 className="text-3xl font-semibold ">  View Projects</h1>
+        <p className=" text-gray-400 mt-2">
+          View all projects. You can filter projects by name and status.
+        </p>
+      </div>
+
 
       {/* Filters Section */}
       <div className="grid sm:grid-cols-2 gap-4 mb-4">
         <div>
-          <label
-            htmlFor="search"
-            className="text-gray-900 dark:text-gray-50 font-medium"
-          >
-            Search By Name
-          </label>
           <input
             id="search"
             value={searchTerm}
-            placeholder="Enter name..."
+            placeholder=" Search By Name..."
             onChange={(e) => setSearchTerm(e.target.value)}
             type="text"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-300 dark:focus:border-gray-500"
@@ -63,7 +63,6 @@ const ViewProject = () => {
 
         {/* Status Filter */}
         <SimpleSelect
-          label="Status"
           filter={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           options={[
@@ -99,7 +98,7 @@ const ViewProject = () => {
         )}
       </div>
       {/* Component To Add A Task */}
-      <AddTask />
+      <AddTask isOpen={isOpen} setIsOpen={()=>alert("hello")}/>
     </div>
   );
 };

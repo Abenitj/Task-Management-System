@@ -18,27 +18,29 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const handleSendOTP = async () => {
-    // Define the email address
-    const email = "abenitj@gmail.com";
+  // const handleSendOTP = async () => {
+  //   // Define the email address
+  //   const email = "abenitj@gmail.com";
     
-    try {
-      // Send OTP using email via POST request
-      const res = await axios.post("http://localhost:4000/api/users/send-otp", { email });
+  //   try {
+  //     // Send OTP using email via POST request
+  //     const res = await axios.post("http://localhost:4000/api/users/send-otp", { email });
       
-      if (res.status === 200) {
-        // Handle success, e.g., display a message or perform further actions
-        console.log("OTP sent successfully to:", email);
-      } else {
-        // Handle unexpected status or errors
-        console.error("Failed to send OTP:", res.data);
-      }
-    } catch (error) {
-      // Handle error, e.g., network issues
-      console.error("Error sending OTP:", error);
-    }
-  };
+  //     if (res.status === 200) {
+  //       // Handle success, e.g., display a message or perform further actions
+  //       console.log("OTP sent successfully to:", email);
+  //     } else {
+  //       // Handle unexpected status or errors
+  //       console.error("Failed to send OTP:", res.data);
+  //     }
+  //   } catch (error) {
+  //     // Handle error, e.g., network issues
+  //     console.error("Error sending OTP:", error);
+  //   }
+  // };
   
+  
+
   const onSubmit = async (user) => {
     if (!user) {
       throw new Error("All fields are required");

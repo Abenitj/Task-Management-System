@@ -14,12 +14,12 @@ export const setupSocket = (server) => {
   io.on("connection", (socket) => {
     socket.on("register", (userId) => {
       user[userId] = socket.id;
-      console.log(user);
+      console.log("user registered",user);
     });
     // Remove user when they disconnect
     socket.on("disconnect", () => {
-      const userId = Object.keys(users).find((key) => users[key] === socket.id);
-      if (userId) delete users[userId];
+      const userId = Object.keys(user).find((key) => user[key] === socket.id);
+      if (userId) delete user[userId];
       console.log("User disconnected:", socket.id);
     });
   });

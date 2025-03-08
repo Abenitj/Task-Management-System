@@ -3,13 +3,13 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
+import cookieParser from 'cookie-parser';
 import userRoutes from "./src/routers/userRouter.js";
 import projectRoutes from "./src/routers/projectRoutes.js";
 import taskRoutes from "./src/routers/taskRoutes.js";
 import authRoutes from "./src/routers/authRoutes.js";
 import issueRoutes from "./src/routers/issueRoutes.js";
-import cookieParser from 'cookie-parser';
-
+import notificationRoutes from "./src/routers/notificationRoutes.js";
 //socket setup
 import http from "http";
 import {Server} from "socket.io"
@@ -48,6 +48,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/task", taskRoutes);
 app.use("/api/issue", issueRoutes);
 app.use("/api/auth",authRoutes)
+app.use("/api/notification",notificationRoutes)
 
 // Connect to MongoDB and start the server
 connectDB().then(() => {

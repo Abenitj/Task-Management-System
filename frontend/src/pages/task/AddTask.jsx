@@ -7,17 +7,20 @@ import SelectInput from "../../components/SelectInput";
 import TextAreaInput from "../../components/TextareaInput";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../features/modalSlice";
+import { useNavigate } from "react-router-dom";
+import { ROLE } from "../../utils/Constants";
 
 const AddTask = () => {
+  const user=useSelector((state)=>state.user?.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState();
   const [Options, setOption] = useState();
-  const [error, setError] = useState();
-  const role = "Team Member";
+  const navigate = useNavigate();
+
   const fetchUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/users/role/${role}`
+        `http://localhost:4000/api/users/role/${ROLE}`
       );
       if (res.status === 200) {
         setOption(
@@ -37,13 +40,39 @@ const AddTask = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
+    clearErrors,
+    watch,
   } = useForm();
 
   const project_id = useSelector((state) => state.modal?.projectId);
+  const isOpen = useSelector((state) => state.modal?.isOpen);
+
+  // Watch the deadline field
+  const deadline = watch("deadline");
+
+  // Check if the deadline is in the past
+  useEffect(() => {
+    if (deadline) {
+      const selectedDeadline = new Date(deadline);
+      const currentDate = new Date();
+      if (selectedDeadline <= currentDate) {
+        setError("deadline", {
+          type: "manual",
+          message: "The deadline must be a future date.",
+        });
+      } else {
+        // Clear the error if the date is valid (future date)
+        clearErrors("deadline");
+      }
+    }
+  }, [deadline, setError, clearErrors]);
+
   const onSubmit = async (data) => {
     if (!data.assignedTo) {
       alert("Please assign the task to someone.");
@@ -63,22 +92,22 @@ const AddTask = () => {
       const res = await axios.post("http://localhost:4000/api/task", newTask, {
         withCredentials: true,
       });
+
       if (res.status === 201) {
         dispatch(closeModal());
-        console.log("Task added successfully", response.data);
+        navigate("/view-task")
       }
     } catch (error) {
-      console.error(
-        "Error adding task:",
-        error.response?.data?.error || error.message
-      );
+      console.error("Error adding task:", error);
+      alert(error.response?.data?.message || "Failed to add task. Please try again.");
     }
   };
 
   if (isLoading) return <div>loading...</div>;
+
   return (
     <div>
-      <Modal title={"Add Task"}>
+      <Modal title={"Add Task"} isOpen={isOpen} setIsModal={() => dispatch(closeModal())}>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full h-[90%] grid gap-x-10 gap-y-5 grid-cols-1 md:grid-cols-2">
             <TextInput
@@ -92,7 +121,7 @@ const AddTask = () => {
               label="Assigned To"
               isRequired={true}
               error={errors.assignedTo}
-              {...register("assignedTo", { required: "it is righie" })}
+              {...register("assignedTo", { required: "Assigned to is required" })}
               options={Options}
             />
             <SelectInput
