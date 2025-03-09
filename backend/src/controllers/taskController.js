@@ -1,4 +1,5 @@
 import { getIo, getUserSocketId } from "../config/socket.js";
+import Project from "../models/projectModel.js";
 import Task from "../models/taskModel.js";
 import User from "../models/userModel.js";
 import { createNotification } from "./notificationController.js";
@@ -15,14 +16,16 @@ export const createTask = async (req, res) => {
         try {
           await createNotification(savedTask.assignedTo, message);
         } catch (notificationError) {
-          console.error("Error creating notification:", notificationError.message);
+          console.error(
+            "Error creating notification:",
+            notificationError.message
+          );
           // You could also handle the notification error separately if needed
         }
       }
     }
 
-    res.status(201).json(savedTask );
-
+    res.status(201).json(savedTask);
   } catch (error) {
     console.error("Server error:", error.message); // Log the server error
     res.status(500).json({ message: "Server error", error: error.message });
@@ -31,9 +34,9 @@ export const createTask = async (req, res) => {
 // Get all tasks
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().populate(
-      "project assignedTo reportedIssues"
-    ).sort({ createdAt: -1 });
+    const tasks = await Task.find()
+      .populate("project assignedTo reportedIssues")
+      .sort({ createdAt: -1 });
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -95,19 +98,26 @@ export const deleteTask = async (req, res) => {
 // patch status
 export const patchStatus = async (req, res) => {
   try {
-    //find and update 
-    const updatedTask = await Task.findByIdAndUpdate
-    (req.params.id, {status:req.body.status}, {new: true});
+    //find and update
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
 
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
-    if(updatedTask.assignedTo){
-      const message = `The status of the ${updatedTask.title} task is updated to ${updatedTask.status}`;
+    const project = await Project.findById(updatedTask.project);
+    if (updatedTask.assignedTo) {
+      const message = ` ${req?.body.firstname} ${req?.body.lastname} has changed the task status ${updatedTask.status} `;
       try {
-        await createNotification(updatedTask.assignedTo, message);
+        await createNotification(project?.createdBy, message);
       } catch (notificationError) {
-        console.error("Error creating notification:", notificationError.message);
+        console.error(
+          "Error creating notification:",
+          notificationError.message
+        );
       }
     }
     // const {project ,..updatedTaskWithoutProject} = updatedTask
@@ -115,4 +125,4 @@ export const patchStatus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
-}
+};

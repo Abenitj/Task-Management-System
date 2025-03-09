@@ -30,7 +30,7 @@ const App = () => {
           <Route path="/add-user" element={<AddUser />} />
           <Route path="/view-user" element={<UserTable />} />
           <Route path="/edit-user" element={<UpdateUser />} />
-          <Route path="/add-project" element={<AddProject/>} />
+          <Route path="/add-project" element={<AddProject />} />
           <Route path="/view-project" element={<ViewProject />} />
           <Route path="/view-task" element={<ViewTask />} />
         </Route>
@@ -38,7 +38,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/get-otp" element={<GetOTP />} />
-      
       </Routes>
     </Router>
   );

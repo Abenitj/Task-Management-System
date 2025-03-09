@@ -33,21 +33,15 @@ const ViewTask = () => {
       setLoading(false);
     }
   };
-
   // real time state change
-
-
-
   const filterTasks = () => {
     let filtered = tasks;
-
     // Filter by title
     if (searchTerm) {
       filtered = filtered.filter((task) =>
         task.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
     // Filter by priority
     if (selectedPriority) {
       filtered = filtered.filter((task) => task.priority === selectedPriority);

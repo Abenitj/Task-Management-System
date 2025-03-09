@@ -8,10 +8,14 @@ import {
 } from "@material-tailwind/react";
 import { Flag, Calendar } from "lucide-react";
 import { formatDate } from "../utils/FormateDate";
+import { useSelector } from "react-redux";
+import { ROLE } from "../utils/Constants";
 
 const TaskCard = ({ title, description, deadline, status, id, priority,setTasks, }) => {
   const [activeCard, setActiveCard] = useState(null);
   const dropdownRef = useRef(null);
+  const {firstname,lastname,role}=useSelector(state=>state.user.user)
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -28,7 +32,7 @@ const TaskCard = ({ title, description, deadline, status, id, priority,setTasks,
   const handleChangeStatus = async (status) => {
     try {
       const res = await axios.patch(`http://localhost:4000/api/task/${id}`, {
-        status,
+        status,firstname,lastname
       });
       if (res.status === 200) {
         setTasks((prev) =>
@@ -82,7 +86,7 @@ const TaskCard = ({ title, description, deadline, status, id, priority,setTasks,
           ref={dropdownRef}
         >
           <div
-            className={`font-semibold w-[30%] text-center px-1 text-sm rounded-md cursor-pointer ${
+            className={`font-semibold w-[30%] text-center px-1 text-sm rounded-md ${role === ROLE ? 'cursor-pointer' : 'cursor-default'} ${
               status === "To Do"
                 ? "bg-blue-100 text-blue-500"
                 : status === "In Progress"
@@ -93,7 +97,8 @@ const TaskCard = ({ title, description, deadline, status, id, priority,setTasks,
                 ? "bg-red-100 text-red-500"
                 : "bg-red-100 text-gray-500"
             }`}
-            onClick={() => setActiveCard(activeCard === id ? null : id)} // Toggle dropdown
+          // Toggle dropdown
+          onClick={role === "Team Member" ? () => setActiveCard(activeCard === id ? null : id) : undefined}
           >
             {status || "Unknown Status"}
           </div>
