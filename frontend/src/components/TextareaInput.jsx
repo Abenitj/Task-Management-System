@@ -13,7 +13,7 @@ const TextAreaInput = ({ label, error, isRequired = false, ...rest }) => {
           ${
             error
               ? "border-red-500 focus:border-red-500"
-              : "border-gray-300 dark:border-gray-600 focus:border-blue-600"
+              : "border-gray-300 dark:border-gray-600 focus:border-gray-600"
           }`}
         {...rest} // Spread props (register function)
       />

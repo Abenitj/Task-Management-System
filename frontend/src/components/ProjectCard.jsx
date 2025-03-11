@@ -5,11 +5,12 @@ import {
   Typography,
   Chip,
 } from "@material-tailwind/react";
-import { FaPlus, FaProjectDiagram } from "react-icons/fa";
+import { FaEdit, FaPlus, FaProjectDiagram } from "react-icons/fa";
 import { formatDate } from "../utils/FormateDate";
 import { useState } from "react";
 import { openModal, setProjectId } from "../features/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setProject } from "../features/globalStatesSlice";
 
 const ProjectCard = ({
   name,
@@ -19,14 +20,19 @@ const ProjectCard = ({
   endDate,
   status,
   id,
-  setIsOpen
+  project
 }) => {
   const [isReadMore, setIsReadMore] = useState(false);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const handleTaskCreate = (id) => {
-    dispatch(openModal())
+    dispatch(openModal({ type: "addTask" }));
     dispatch(setProjectId(id));
   };
+
+  const handleEdit = (project) => {
+    dispatch(openModal({ type: "updateProject" }));
+    dispatch(setProject(project))
+  }
   return (
     <div>
       <Card className="w-full  h-auto relative rounded-md bg-gray-50 dark:bg-gray-800 shadow-sm">
@@ -69,16 +75,21 @@ const ProjectCard = ({
           />
         </CardBody>
         <CardFooter className="pt-0">
-          <button
-            onClick={() => handleTaskCreate(id)}
-            className="text-white bg-gray-700 dark:bg-gray-600 hover:bg-gray-800 dark:hover:bg-gray-700 
+          <div className="flex justify-between items-center">
+            <button
+              onClick={() => handleTaskCreate(id)}
+              className="text-white bg-gray-700 dark:bg-gray-600 hover:bg-gray-800 dark:hover:bg-gray-700 
             focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 
             font-medium rounded-md text-sm px-5 py-2.5 flex items-center"
-            type="button"
-          >
-            <FaPlus className="w-3.5 h-3.5 me-2" />
-            Add Task
-          </button>
+              type="button"
+            >
+              <FaPlus className="w-3.5 h-3.5 me-2" />
+              Add Task
+            </button>
+            <button onClick={() => handleEdit(project)}>
+              <FaEdit className="text-yellow-500 cursor-pointer" />
+            </button>
+          </div>
         </CardFooter>
       </Card>
     </div>

@@ -4,10 +4,14 @@ import SubMenu from "./SubMenu";
 import MenuItem from "./MenuItem";
 import Logout from "./Logout";
 import { MdClose } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { Admin, ProjectManager, TeamMember } from "../utils/Constants";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const [openSubMenu, setOpenSubMenu] = useState(null);
-
+  const Role = useSelector((state) => state.user.user.role);
+  const userName = useSelector((state) => state.user.user.firstname);
+  const lastname = useSelector((state) => state.user.user.lastname);
   const handleSubMenuClick = (menuLabel) => {
     setOpenSubMenu((prev) => (prev === menuLabel ? null : menuLabel));
   };
@@ -20,44 +24,66 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     >
       {isOpen && (
         <>
-          <div className="relative">
-            <h1 className="text-xl font-bold z-[1000] text-center py-5">
-              Addis-Spark PLC
-            </h1>
+          <div className="relative flex items-center justify-between py-5 px-3">
+            
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-900 mr-3 md:hidden block absolute top-2 right-2 dark:text-white text-2xl focus:outline-none"
+              className="text-gray-900 dark:text-white text-2xl focus:outline-none md:hidden block"
             >
               {isOpen ? <MdClose /> : <FiMenu />}
             </button>
           </div>
+
+          {/* User Info Section */}
+          <div className="text-center text-sm text-gray-700 dark:text-gray-300 mt-4">
+          <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
+              Addis-Spark PLC
+            </h1>
+            <p className="text-xl">{` ${Role}`}</p>
+            <p className="font-semibold">{` ${userName} ${lastname}  `}</p>
+         
+          </div>
+
           {/* Menu Items */}
           <nav className="mt-10 overflow-auto scrollbar-thin flex flex-col space-y-1 flex-grow">
-            <MenuItem to="/" icon={<FiHome />} label="Dashboard" isOpen={isOpen} />
+            <MenuItem
+              to="/"
+              icon={<FiHome />}
+              label="Dashboard"
+              isOpen={isOpen}
+            />
             {/* Services with Submenu */}
-            <SubMenu
-              isOpen={isOpen}
-              label="User"
-              icon={<FiUser />}
-              items={[
-                { to: "/add-user", label: "Add User" },
-                { to: "/view-user", label: "View Users" },
-              ]}
-              isActive={openSubMenu === "User"}
-              onClick={() => handleSubMenuClick("User")}
-            />
-            <SubMenu
-              isOpen={isOpen}
-              label="Project"
-              icon={<FiLayers />}
-              items={[
-                { to: "/add-project", label: "Add project" },
-                { to: "/view-project", label: "View projects" },
-                { to: "/view-task", label: "View Tasks" },
-              ]}
-              isActive={openSubMenu === "Project"}
-              onClick={() => handleSubMenuClick("Project")}
-            />
+            {Role === Admin && (
+              <SubMenu
+                isOpen={isOpen}
+                label="User"
+                icon={<FiUser />}
+                items={[
+                  { to: "/add-user", label: "Add User" },
+                  { to: "/view-user", label: "View Users" },
+                ]}
+                isActive={openSubMenu === "User"}
+                onClick={() => handleSubMenuClick("User")}
+              />
+            )}
+            {Role !== Admin && (
+              <SubMenu
+                isOpen={isOpen}
+                label="Project"
+                icon={<FiLayers />}
+                items={[
+                  ...(Role !== TeamMember
+                    ? [{ to: "/add-project", label: "Add project" }]
+                    : []),
+                  ...(Role !== TeamMember
+                    ? [{ to: "/view-project", label: "View projects" }]
+                    : []),
+                  { to: "/view-task", label: "View Tasks" }, // Always visible
+                ]}
+                isActive={openSubMenu === "Project"}
+                onClick={() => handleSubMenuClick("Project")}
+              />
+            )}
           </nav>
           <div className="mt-auto">
             <div className="border-t border-gray-300 dark:border-gray-700" />

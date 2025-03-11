@@ -45,7 +45,6 @@ const AddProject = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
       if (res.status === 201) {
         navigate('/view-project')
       }

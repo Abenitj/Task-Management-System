@@ -12,8 +12,5 @@ export const formatDate = (dateString) => {
     console.error("Invalid date format:", dateString);
     return "Invalid date";
   }
-
-  console.log("Converted Date:", date.toString()); // Debugging log
-
   return format(date, "MMMM d, yyyy"); // Example: May 20, 2025
 };

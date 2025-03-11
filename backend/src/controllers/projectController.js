@@ -58,11 +58,12 @@ export const getProjectById = async (req, res) => {
 
 // Update a project
 export const updateProject = async (req, res) => {
+  console.log(req.params.id)
   try {
-    const { name, createdBy, startDateTime, endDateTime } = req.body;
+    const { name, startDateTime, endDateTime } = req.body;
 
     // Check if any of the required fields are missing
-    if (!name || !createdBy || !startDateTime || !endDateTime) {
+    if (!name || !startDateTime || !endDateTime) {
       return res
         .status(400)
         .json({
@@ -70,7 +71,7 @@ export const updateProject = async (req, res) => {
             "All fields (name, createdBy, startDateTime, endDateTime) are required.",
         });
     }
-
+ 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
       req.body,

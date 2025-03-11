@@ -7,7 +7,7 @@ const Modal = ({ children, title, isOpen, setIsModal }) => {
   const handleOutsideClick = (e) => {
     if (e.target.id === "modal-overlay") {
       // setIsModal(false)
-      setIsModal(false);
+      setIsModal();
     }
   };
 
@@ -29,7 +29,7 @@ const Modal = ({ children, title, isOpen, setIsModal }) => {
               </h1>
               <button
                 type="button"
-                onClick={() => setIsModal(false)}
+                onClick={() => setIsModal()}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-gray-50"
               >
                 <svg

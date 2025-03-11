@@ -3,18 +3,19 @@ import axios from "axios";
 import ProjectCard from "../../components/ProjectCard";
 import SimpleSelect from "../../components/SimpleSelect";
 import AddTask from "../task/AddTask";
+import { useSelector } from "react-redux";
+import UpdateProject from "./updateProject";
 
 const ViewProject = () => {
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [isOpen,setIsOpen]=useState(false)
-
+  const isOpenAddTask = useSelector((state) => state.modal?.isOpenAddTask);
   // Fetch Projects
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/projects",{
+        const res = await axios.get("http://localhost:4000/api/projects", {
           withCredentials: true,
         });
         setProjects(res.data); // Set projects from backend
@@ -26,27 +27,20 @@ const ViewProject = () => {
   }, []); // Empty dependency array ensures it runs once
 
   // Filter Projects Based on Status and Name
-  const filteredProjects = projects
-    .filter(
-      (project) =>
-        (statusFilter === "All" || project.status === statusFilter) &&
-        project.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-  const handleModal = (id) => {
-    alert(id); // This is just a placeholder. You can implement actual modal logic
-  };
+  const filteredProjects = projects.filter(
+    (project) =>
+      (statusFilter === "All" || project.status === statusFilter) &&
+      project.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="p-2 min-h-screen">
-
       <div className="p-4">
-        <h1 className="text-3xl font-semibold ">  View Projects</h1>
+        <h1 className="text-3xl font-semibold "> View Projects</h1>
         <p className=" text-gray-400 mt-2">
           View all projects. You can filter projects by name and status.
         </p>
       </div>
-
 
       {/* Filters Section */}
       <div className="grid sm:grid-cols-2 gap-4 mb-4">
@@ -88,7 +82,8 @@ const ViewProject = () => {
               startDate={project.startDateTime}
               endDate={project.endDateTime}
               status={project.status}
-              handleModal={handleModal}
+              project={project}
+              set
             />
           ))
         ) : (
@@ -98,7 +93,9 @@ const ViewProject = () => {
         )}
       </div>
       {/* Component To Add A Task */}
-      <AddTask isOpen={isOpen} setIsOpen={()=>alert("hello")}/>
+      <AddTask />
+      {/* Component To Update A Project */}
+      <UpdateProject />
     </div>
   );
 };

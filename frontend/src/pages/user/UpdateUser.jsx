@@ -21,6 +21,7 @@ const UpdateUser = () => {
     watch,
     formState: { errors },
   } = useForm();
+  
   useEffect(() => {
     if (user) {
       Object.keys(user).forEach((key) => {
@@ -35,7 +36,6 @@ const UpdateUser = () => {
       alert("No data provided to update user");
       return;
     }
-  
     try {
       const res = await axios.put(
         `http://localhost:4000/api/users/${user._id}`, // Fixed URL

@@ -8,10 +8,10 @@ import TextAreaInput from "../../components/TextareaInput";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../features/modalSlice";
 import { useNavigate } from "react-router-dom";
-import { ROLE } from "../../utils/Constants";
+import { TeamMember } from "../../utils/Constants";
 
 const AddTask = () => {
-  const user=useSelector((state)=>state.user?.user);
+  const user = useSelector((state) => state.user?.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState();
   const [Options, setOption] = useState();
@@ -20,7 +20,7 @@ const AddTask = () => {
   const fetchUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/users/role/${ROLE}`
+        `http://localhost:4000/api/users/role/${TeamMember}`
       );
       if (res.status === 200) {
         setOption(
@@ -51,7 +51,7 @@ const AddTask = () => {
   } = useForm();
 
   const project_id = useSelector((state) => state.modal?.projectId);
-  const isOpen = useSelector((state) => state.modal?.isOpen);
+  const isOpen = useSelector((state) => state.modal?.isOpenAddTask);
 
   // Watch the deadline field
   const deadline = watch("deadline");
@@ -78,7 +78,6 @@ const AddTask = () => {
       alert("Please assign the task to someone.");
       return;
     }
-
     const newTask = {
       title: data.title,
       description: data.description,
@@ -95,11 +94,13 @@ const AddTask = () => {
 
       if (res.status === 201) {
         dispatch(closeModal());
-        navigate("/view-task")
+        navigate("/view-task");
       }
     } catch (error) {
       console.error("Error adding task:", error);
-      alert(error.response?.data?.message || "Failed to add task. Please try again.");
+      alert(
+        error.response?.data?.message || "Failed to add task. Please try again."
+      );
     }
   };
 
@@ -107,7 +108,11 @@ const AddTask = () => {
 
   return (
     <div>
-      <Modal title={"Add Task"} isOpen={isOpen} setIsModal={() => dispatch(closeModal())}>
+      <Modal
+        title={"Add Task"}
+        isOpen={isOpen}
+        setIsModal={() => dispatch(closeModal())}
+      >
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full h-[90%] grid gap-x-10 gap-y-5 grid-cols-1 md:grid-cols-2">
             <TextInput
@@ -121,7 +126,9 @@ const AddTask = () => {
               label="Assigned To"
               isRequired={true}
               error={errors.assignedTo}
-              {...register("assignedTo", { required: "Assigned to is required" })}
+              {...register("assignedTo", {
+                required: "Assigned to is required",
+              })}
               options={Options}
             />
             <SelectInput

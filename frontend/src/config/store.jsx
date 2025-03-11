@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage"
 import authReducer from "../features/authSlice";
 import modalReducer from "../features/modalSlice";
 import notificationReducer from "../features/notificationSlice";
+import globalStatesReducer from "../features/globalStatesSlice";
 const persistConfig={
   key:'auth',
   storage
@@ -13,6 +14,7 @@ export const store = configureStore({
   reducer: {
     user:persistedReducer,
     modal:modalReducer,
+    states:globalStatesReducer,
     notification:notificationReducer,
   },
 });
