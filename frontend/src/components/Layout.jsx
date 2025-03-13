@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { FiMenu, FiSun, FiMoon } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import { FaUserCircle } from "react-icons/fa";
-import { Bell } from "lucide-react";
+
 import { Outlet } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import NotificationBell from "./NotificationBell";
 import socket from "../config/socket";
 import axios from "axios";
 import Modal from "./Modal";
 import NotifyCard from "./NotifyCard";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Layout = () => {
   const user = useSelector((state) => state?.user.user);
@@ -101,7 +101,7 @@ const Layout = () => {
               setIsOpen={setOpenModal}
               count={notification?.length}
             />
-            <FaUserCircle className="text-2xl cursor-pointer" />
+           <ProfileDropdown/>
           </div>
         </div>
 
@@ -112,21 +112,24 @@ const Layout = () => {
       </div>
 
       {/* Notifications Modal */}
-   { notification.length > 0 && (
-       <Modal title="Notifications" isOpen={openModal} setIsModal={setOpenModal}>
-       {notification?.map((data) => {
-         return (
-           <NotifyCard
-             key={data._id}
-             message={data.message}
-             date={data?.createdAt}
-             handleMarkAsRead={() => handleMarkAsRead(data._id)}
-           />
-         );
-       })}
-     </Modal>
-   )
-   }
+      {notification.length > 0 && (
+        <Modal
+          title="Notifications"
+          isOpen={openModal}
+          setIsModal={setOpenModal}
+        >
+          {notification?.map((data) => {
+            return (
+              <NotifyCard
+                key={data._id}
+                message={data.message}
+                date={data?.createdAt}
+                handleMarkAsRead={() => handleMarkAsRead(data._id)}
+              />
+            );
+          })}
+        </Modal>
+      )}
     </div>
   );
 };

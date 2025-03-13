@@ -24,8 +24,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     >
       {isOpen && (
         <>
-          <div className="relative flex items-center justify-between py-5 px-3">
-            
+          <div className="relative flex items-center justify-between py-1 px-3">
+            <div className="flex flex-col items-center w-full">
+              <h1 className="text-xl font-semibold  text-center text-gray-900 dark:text-white">
+                Addis-Spark PLC
+              </h1>
+              <p className="text-md">{` ${Role}`}</p>
+            </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-900 dark:text-white text-2xl focus:outline-none md:hidden block"
@@ -33,17 +38,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               {isOpen ? <MdClose /> : <FiMenu />}
             </button>
           </div>
-
-          {/* User Info Section */}
-          <div className="text-center text-sm text-gray-700 dark:text-gray-300 mt-4">
-          <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
-              Addis-Spark PLC
-            </h1>
-            <p className="text-xl">{` ${Role}`}</p>
-            <p className="font-semibold">{` ${userName} ${lastname}  `}</p>
-         
-          </div>
-
           {/* Menu Items */}
           <nav className="mt-10 overflow-auto scrollbar-thin flex flex-col space-y-1 flex-grow">
             <MenuItem
