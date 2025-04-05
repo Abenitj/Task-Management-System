@@ -32,7 +32,6 @@ const ProfileDropdown = () => {
       <MenuList className="bg-gray-50 w-44 border-none shadow-lg dark:bg-gray-700 text-gray-800 dark:text-gray-50 px-3 py-2 -ml-7 rounded-sm">
         {menuItems.map((item, index) => (
           <MenuItem
-           onClick={()=>alert(index)}
             key={index}
             className="text-left p-1 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center space-x-2"
           >
