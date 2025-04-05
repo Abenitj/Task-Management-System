@@ -52,7 +52,7 @@ app.use("/api/notification",notificationRoutes)
 
 // Connect to MongoDB and start the server
 connectDB().then(() => {
-  server.listen(port, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`🚀 Server running at http://localhost:${port}`);
   });
 });
