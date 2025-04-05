@@ -29,7 +29,7 @@ setupSocket(server)
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with frontend URL
+    origin:process.env.FRONTEND_URL, // Replace with frontend URL
     credentials: true, // Allow cookies
   })
 );
