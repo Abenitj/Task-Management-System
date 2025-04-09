@@ -25,8 +25,10 @@ const server = http.createServer(app);
 setupSocket(server)
 // Middleware
 app.use(express.json());
+const allowedOrigin = 'https://task-management-system-admin.netlify.app';
+
 app.use(cors({
-  origin:'https://task-management-system-admin.netlify.app',
+  origin: allowedOrigin,
   credentials: true
 }));
 
