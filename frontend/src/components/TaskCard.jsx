@@ -39,7 +39,7 @@ const TaskCard = ({
 
   const handleChangeStatus = async (status) => {
     try {
-      const res = await axios.patch(`http://localhost:4000/api/task/${id}`, {
+      const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/task/${id}`, {
         status,
         firstname,
         lastname,

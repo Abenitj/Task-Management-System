@@ -88,7 +88,7 @@ const AddTask = () => {
     };
 
     try {
-      const res = await axios.post("http://localhost:4000/api/task", newTask, {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/task`, newTask, {
         withCredentials: true,
       });
 

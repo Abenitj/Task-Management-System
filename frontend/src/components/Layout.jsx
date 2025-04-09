@@ -25,7 +25,7 @@ const Layout = () => {
   const fetchNotification = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/notification/${user?.id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/notification/${user?.id}`
       );
       if (res.status === 200) {
         setNotification(res.data);
@@ -62,7 +62,7 @@ const Layout = () => {
   const handleMarkAsRead = async (id) => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/notification/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/notification/${id}`
       );
       if (res.status === 200) {
         fetchNotification();

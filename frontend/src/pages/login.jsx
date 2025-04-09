@@ -46,7 +46,7 @@ const Login = () => {
       throw new Error("All fields are required");
     }
     try {
-      const res = await axios.post(`https://task-management-system-backend-hmjf.onrender.com/api/auth`, user, {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth`, user, {
         withCredentials: true,
       });
       if (res.status === 200) {

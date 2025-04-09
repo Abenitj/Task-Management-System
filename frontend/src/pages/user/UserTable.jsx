@@ -78,7 +78,7 @@ export default function UserTable() {
 
     try {
       const res = await axios.patch(
-        `http://localhost:4000/api/users/status/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/status/${id}`,
         { status: newStatus }
       );
 
