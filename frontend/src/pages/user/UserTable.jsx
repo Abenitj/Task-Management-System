@@ -20,7 +20,7 @@ export default function UserTable() {
   const [toastMessage, setToastMessage] = useState(""); // Store dynamic messages
 
   const fetchUser = () => {
-    axios.get("http://localhost:4000/api/users").then((response) => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users`).then((response) => {
       setUsers(response.data);
       console.log(response.data);
     });
@@ -43,7 +43,7 @@ export default function UserTable() {
 
     try {
       const res = await axios.delete(
-        `http://localhost:4000/api/users/${deleteId}`
+        `${import.meta.env.BASE_URL}/api/users/${deleteId}`
       );
       if (res.status === 200) {
         setToastMessage("User deleted successfully");

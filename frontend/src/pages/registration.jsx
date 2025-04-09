@@ -18,7 +18,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     console.log(data)
     try {
-      await axios.post("http://localhost:4000/api/users", data);
+      await axios.post(`${import.meta.env.BASE_URL}/api/users`, data);
       reset();
       navigate("/login");
     } catch (error) {

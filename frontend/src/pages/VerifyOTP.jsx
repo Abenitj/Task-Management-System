@@ -36,7 +36,7 @@ const VerifyOTP = () => {
     
     try {
    
-      const res = await axios.patch("http://localhost:4000/api/users/reset-password", requestData);
+      const res = await axios.patch(`${import.meta.env.BASE_URL}/api/users/reset-password`, requestData);
       if (res.status === 200) {
         setIsSuccess(true);
         setTimeout(() => navigate("/login"), 2000); // Redirect to login after success

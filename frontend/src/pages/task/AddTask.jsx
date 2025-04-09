@@ -20,7 +20,7 @@ const AddTask = () => {
   const fetchUser = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/users/role/${TeamMember}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/role/${TeamMember}`
       );
       if (res.status === 200) {
         setOption(

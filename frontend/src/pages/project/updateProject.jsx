@@ -57,7 +57,7 @@ const UpdateProject = () => {
       const dataToSend = { name, startDateTime, endDateTime, description };
 
       const res = await axios.put(
-        `http://localhost:4000/api/projects/${project._id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/projects/${project._id}`,
         dataToSend,
         {
           withCredentials: true,

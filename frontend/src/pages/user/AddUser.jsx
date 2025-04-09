@@ -23,7 +23,7 @@ const AddUser = () => {
   const onSubmit = async (data) => {
     console.log(data)
     try {
-      await axios.post("http://localhost:4000/api/users", data);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users`, data);
       reset();
       navigate("/view-user");
     } catch (error) {

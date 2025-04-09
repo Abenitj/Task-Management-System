@@ -5,6 +5,7 @@ import SimpleSelect from "../../components/SimpleSelect";
 import AddTask from "../task/AddTask";
 import { useSelector } from "react-redux";
 import UpdateProject from "./updateProject";
+import { Import } from "lucide-react";
 
 const ViewProject = () => {
   const [projects, setProjects] = useState([]);
@@ -15,7 +16,7 @@ const ViewProject = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/projects", {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/projects`, {
           withCredentials: true,
         });
         setProjects(res.data); // Set projects from backend

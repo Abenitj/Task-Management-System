@@ -39,7 +39,7 @@ const AddProject = () => {
       };
 
       const res = await axios.post(
-        "http://localhost:4000/api/projects",
+        `${import.meta.env.VITE_API_BASE_URL}/api/projects`,
         dataToSend,
         {
           withCredentials: true,

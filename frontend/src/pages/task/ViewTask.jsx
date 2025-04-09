@@ -45,7 +45,7 @@ const ViewTask = () => {
   const handleConfirm= async()=>{
     if(!selectedId) return;
     try {
-      await axios.delete(`http://localhost:4000/api/task/${selectedId}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/task/${selectedId}`);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== selectedId));
     } catch (error) {
       console.log("Error deleting task:", error);

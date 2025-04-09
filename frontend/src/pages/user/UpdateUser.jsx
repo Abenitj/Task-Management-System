@@ -38,7 +38,7 @@ const UpdateUser = () => {
     }
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/users/${user._id}`, // Fixed URL
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/${user._id}`, // Fixed URL
         data
       );
   

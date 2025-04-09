@@ -17,7 +17,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  console.log(import.meta.env.VITE_API_BASE_URL)
   // const handleSendOTP = async () => {
   //   // Define the email address
   //   const email = "abenitj@gmail.com";
@@ -46,7 +46,7 @@ const Login = () => {
       throw new Error("All fields are required");
     }
     try {
-      const res = await axios.post("http://localhost:4000/api/auth", user, {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth`, user, {
         withCredentials: true,
       });
       if (res.status === 200) {
