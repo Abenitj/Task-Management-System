@@ -23,8 +23,6 @@ const server = http.createServer(app);
 
 //initialize socket connection
 setupSocket(server)
-
-
 // Middleware
 app.use(express.json());
 app.use(
