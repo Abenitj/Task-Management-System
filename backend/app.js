@@ -26,8 +26,8 @@ setupSocket(server)
 // Middleware
 app.use(express.json());
 const allowedOrigins = [
-  'http://localhost:3001',             // for local development
-  'https://your-frontend.onrender.com' // replace with your deployed frontend URL
+  'http://localhost:3001',  
+  'https://task-management-system-admin.netlify.app/'
 ];
 
 app.use(cors({
