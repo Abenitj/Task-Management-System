@@ -30,7 +30,6 @@ export const login = async (req, res) => {
       sameSite: isProduction ? 'None' : 'Lax', // 'None' for HTTPS, 'Lax' for local
       maxAge: 12 * 60 * 60 * 1000
     });
-
     res.json({
       message: 'Login successful',
       user: {
