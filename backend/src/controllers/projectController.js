@@ -58,36 +58,37 @@ export const getProjectById = async (req, res) => {
 
 // Update a project
 export const updateProject = async (req, res) => {
-  console.log(req.params.id)
-  try {
-    const { name, startDateTime, endDateTime } = req.body;
+  const token = req.cookies.authToken; // Get token from cookies
+console.log(token)
+  // try {
+  //   const { name, startDateTime, endDateTime } = req.body;
 
-    // Check if any of the required fields are missing
-    if (!name || !startDateTime || !endDateTime) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "All fields (name, createdBy, startDateTime, endDateTime) are required.",
-        });
-    }
+  //   // Check if any of the required fields are missing
+  //   if (!name || !startDateTime || !endDateTime) {
+  //     return res
+  //       .status(400)
+  //       .json({
+  //         message:
+  //           "All fields (name, createdBy, startDateTime, endDateTime) are required.",
+  //       });
+  //   }
  
-    const updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+  //   const updatedProject = await Project.findByIdAndUpdate(
+  //     req.params.id,
+  //     req.body,
+  //     { new: true }
+  //   );
 
-    if (!updatedProject) {
-      return res.status(404).json({ message: "Project not found" });
-    }
+  //   if (!updatedProject) {
+  //     return res.status(404).json({ message: "Project not found" });
+  //   }
 
-    res.status(200).json(updatedProject);
-  } catch (message) {
-    res
-      .status(500)
-      .json({ message: "Server message", message: message.message });
-  }
+  //   res.status(200).json(updatedProject);
+  // } catch (message) {
+  //   res
+  //     .status(500)
+  //     .json({ message: "Server message", message: message.message });
+  // }
 };
 
 // Delete a project

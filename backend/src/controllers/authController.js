@@ -23,11 +23,12 @@ export const login = async (req, res) => {
       
     // Set the token in an HTTP-only cookie
     res.cookie('authToken', token, {
-      httpOnly: true,  // Secure, prevents JavaScript access
-      secure: process.env.NODE_ENV === 'production', // Uses HTTPS in production
-      maxAge: 12 * 60 * 60 * 1000, // 12 hours
-      sameSite: 'Strict', // CSRF protection
+      httpOnly: true,
+      secure: false,            // must be false for HTTP (local frontend)
+      sameSite: 'Lax',          // or 'None' if needed for cross-site (e.g. localhost → render)
+      maxAge: 12 * 60 * 60 * 1000
     });
+    
 
     res.json({
       message: 'Login successful',
