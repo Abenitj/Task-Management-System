@@ -8,4 +8,7 @@ export default defineConfig({
     port: 3001,
     open: true,
   },
+  build: {
+    chunkSizeWarningLimit: 1000 // increase limit (in kB)
+  }
 })
