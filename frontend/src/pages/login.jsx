@@ -52,7 +52,7 @@ const Login = () => {
       if (res.status === 200) {
         dispatch(loginSuccess(res.data?.user));
         navigate("/");
-        setisError("helll there");
+        setisError("false");
       }
     } catch (error) {
       console.log(error.response?.data);

@@ -25,13 +25,10 @@ const server = http.createServer(app);
 setupSocket(server)
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin:"*", // Replace with frontend URL
-    credentials: true, // Allow cookies
-  })
-);
-
+app.use(cors({
+  origin: 'http://localhost:3001', // ✅ specific origin
+  credentials: true,               // ✅ allow cookies/auth
+}));
 
 app.use(cookieParser())
 app.get("/",(req,res)=>{
