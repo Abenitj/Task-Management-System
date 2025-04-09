@@ -25,9 +25,14 @@ const server = http.createServer(app);
 setupSocket(server)
 // Middleware
 app.use(express.json());
+const allowedOrigins = [
+  'http://localhost:3001',             // for local development
+  'https://your-frontend.onrender.com' // replace with your deployed frontend URL
+];
+
 app.use(cors({
-  origin: 'http://localhost:3001', // ✅ specific origin
-  credentials: true,               // ✅ allow cookies/auth
+  origin: allowedOrigins,
+  credentials: true
 }));
 
 app.use(cookieParser())

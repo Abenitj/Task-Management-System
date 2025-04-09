@@ -22,13 +22,14 @@ export const login = async (req, res) => {
       );
       
     // Set the token in an HTTP-only cookie
+    const isProduction = process.env.NODE_ENV === 'production';
+
     res.cookie('authToken', token, {
       httpOnly: true,
-      secure: false,            // must be false for HTTP (local frontend)
-      sameSite: 'Lax',          // or 'None' if needed for cross-site (e.g. localhost → render)
+      secure: isProduction,              // secure = true only in production (HTTPS)
+      sameSite: isProduction ? 'None' : 'Lax', // 'None' for HTTPS, 'Lax' for local
       maxAge: 12 * 60 * 60 * 1000
     });
-    
 
     res.json({
       message: 'Login successful',
