@@ -26,7 +26,7 @@ setupSocket(server)
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin:'https://task-management-system-admin.netlify.app/',
+  origin:'https://task-management-system-admin.netlify.app',
   credentials: true
 }));
 
