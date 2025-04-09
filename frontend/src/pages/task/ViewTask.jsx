@@ -5,6 +5,8 @@ import axios from "axios";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Trash2 } from "lucide-react";
 import ConfirmModal from "../../components/ConfirmModal";
+import { useSelector } from "react-redux";
+import { TeamMember } from "../../utils/Constants";
 
 const ViewTask = () => {
   const [tasks, setTasks] = useState([]);
@@ -15,6 +17,7 @@ const ViewTask = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(false);
+  const role = useSelector((state) => state?.user.user.role);
 
   useEffect(() => {
     fetchTasks();
@@ -132,12 +135,16 @@ const ViewTask = () => {
                   setTasks={setTasks}
                   tasks={tasks}
                 />
-                <button
-                  onClick={() => deleteTask(task._id)}
-                  className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                >
-                  <Trash2 size={20} />
-                </button>
+                {
+                role!==TeamMember && (
+                  <button
+                    onClick={() => deleteTask(task._id)}
+                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                )
+                }
               </div>
             ))
           ) : (
